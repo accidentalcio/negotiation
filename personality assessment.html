@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Negotiation Style Assessment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121830;
+      --ink: #eaf0ff;
+      --muted: #a8b2d1;
+      --accent: #6ea8fe;
+      --accent-2: #8bd3ff;
+      --warn: #ff8a8a;
+      --ok: #7de28b;
+      --card: #0f1428;
+      --border: #1f2747;
+    }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    .wrap { max-width: 940px; margin: 32px auto; padding: 0 16px 80px; }
+    header { margin-bottom: 20px; }
+    h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: 0.2px; }
+    p.topline { margin: 0 0 18px; color: var(--muted); }
+    .card { background: linear-gradient(180deg, var(--panel), var(--card)); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .q { margin-bottom: 14px; font-weight: 600; }
+    .item { margin: 18px 0; padding: 16px; border: 1px solid var(--border); border-radius: 12px; }
+    .opts { display: grid; gap: 10px; }
+    label.opt { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; }
+    label.opt:hover { border-color: var(--accent); background: rgba(110,168,254,0.05); }
+    .qnum { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+    .actions { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(11,16,32,0), var(--bg) 45%); padding-top: 16px; margin-top: 24px; }
+    button { appearance: none; border: none; color: white; background: linear-gradient(90deg, var(--accent), var(--accent-2)); padding: 14px 18px; font-weight: 700; border-radius: 12px; cursor: pointer; box-shadow: 0 10px 20px rgba(110,168,254,0.25); }
+    button:disabled { filter: grayscale(0.6); opacity: 0.7; cursor: not-allowed; }
+    .error { color: var(--warn); margin-top: 10px; }
+    .result { margin-top: 22px; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: rgba(139,211,255,0.06); }
+    .pill { display: inline-block; padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 12px; margin-right: 6px; }
+    details { margin-top: 8px; }
+    summary { cursor: pointer; color: var(--accent); }
+    .footer { color: var(--muted); font-size: 12px; margin-top: 14px; }
+    .required-note { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Negotiation Style Assessment</h1>
+      <p class="topline">Answer all 20 questions by choosing the option that is closest to how you usually operate. Options are shuffled on each load.</p>
+      <div class="pill">Analyst</div><div class="pill">Accommodator</div><div class="pill">Assertive</div>
+    </header>
+
+    <form id="quiz" class="card" novalidate></form>
+
+    <div class="actions">
+      <button id="submitBtn" type="button">Submit and Score</button>
+      <div id="formError" class="error" role="alert" aria-live="polite"></div>
+      <div id="result" class="result" hidden></div>
+    </div>
+  </div>
+
+  <script>
+    // Core data. Each option has text and style tag. Options are shuffled at render time.
+    const QUESTIONS = [
+      { q: "When preparing for a big meeting, you usually:",
+        options: [
+          { t: "Research the facts thoroughly before deciding", s: "Analyst" },
+          { t: "Reach out to people to build rapport ahead of time", s: "Accommodator" },
+          { t: "Plan how to clearly state what you want right away", s: "Assertive" },
+        ],
+      },
+      { q: "In a tense discussion, your instinct is to:",
+        options: [
+          { t: "Stay quiet and think before speaking", s: "Analyst" },
+          { t: "Ease the tension with a friendly comment", s: "Accommodator" },
+          { t: "Address the issue directly and firmly", s: "Assertive" },
+        ],
+      },
+      { q: "A colleague makes a mistake that affects your work:",
+        options: [
+          { t: "Review what happened to understand all details", s: "Analyst" },
+          { t: "Reassure them and offer help to fix it", s: "Accommodator" },
+          { t: "Tell them directly what went wrong and how to fix it", s: "Assertive" },
+        ],
+      },
+      { q: "When given a new project, your first step is to:",
+        options: [
+          { t: "Gather as much data as possible", s: "Analyst" },
+          { t: "Talk to stakeholders to build trust", s: "Accommodator" },
+          { t: "Set clear goals and deadlines immediately", s: "Assertive" },
+        ],
+      },
+      { q: "In group decisions, you prefer to:",
+        options: [
+          { t: "Analyze all options before speaking", s: "Analyst" },
+          { t: "Make sure everyone is comfortable and heard", s: "Accommodator" },
+          { t: "Push for a decision to keep things moving", s: "Assertive" },
+        ],
+      },
+      { q: "If someone challenges your idea in a meeting:",
+        options: [
+          { t: "Ask questions to understand their reasoning", s: "Analyst" },
+          { t: "Acknowledge their point and find common ground", s: "Accommodator" },
+          { t: "Defend your idea strongly and clearly", s: "Assertive" },
+        ],
+      },
+      { q: "When deadlines are tight:",
+        options: [
+          { t: "Work methodically to avoid mistakes", s: "Analyst" },
+          { t: "Coordinate with the team to keep morale up", s: "Accommodator" },
+          { t: "Drive the pace and keep people focused", s: "Assertive" },
+        ],
+      },
+      { q: "You get the best results when you:",
+        options: [
+          { t: "Have time to think through your approach", s: "Analyst" },
+          { t: "Build strong relationships first", s: "Accommodator" },
+          { t: "Act quickly and decisively", s: "Assertive" },
+        ],
+      },
+      { q: "When faced with incomplete information:",
+        options: [
+          { t: "Wait until you can get more details", s: "Analyst" },
+          { t: "Talk to others to piece together the picture", s: "Accommodator" },
+          { t: "Make the best decision you can right now", s: "Assertive" },
+        ],
+      },
+      { q: "If a team member disagrees with you:",
+        options: [
+          { t: "Request data or examples to understand their view", s: "Analyst" },
+          { t: "Explore their perspective to maintain harmony", s: "Accommodator" },
+          { t: "Explain why your view makes the most sense", s: "Assertive" },
+        ],
+      },
+      { q: "When someone is upset during a negotiation:",
+        options: [
+          { t: "Stay calm and return to the facts", s: "Analyst" },
+          { t: "Offer empathy and reassurance", s: "Accommodator" },
+          { t: "Refocus on the core issue at hand", s: "Assertive" },
+        ],
+      },
+      { q: "Your approach to setting goals is:",
+        options: [
+          { t: "Set realistic goals based on detailed analysis", s: "Analyst" },
+          { t: "Set goals that foster teamwork and relationships", s: "Accommodator" },
+          { t: "Set ambitious goals to push performance", s: "Assertive" },
+        ],
+      },
+      { q: "If you are leading a meeting:",
+        options: [
+          { t: "Prepare an agenda with data points", s: "Analyst" },
+          { t: "Include time for team bonding", s: "Accommodator" },
+          { t: "Keep it short and to the point", s: "Assertive" },
+        ],
+      },
+      { q: "Your reaction to last minute changes:",
+        options: [
+          { t: "Review the impact before responding", s: "Analyst" },
+          { t: "Stay positive and help others adapt", s: "Accommodator" },
+          { t: "Quickly redirect to meet the new reality", s: "Assertive" },
+        ],
+      },
+      { q: "When someone misses a deadline:",
+        options: [
+          { t: "Ask for a full explanation of the delay", s: "Analyst" },
+          { t: "Show understanding and find a way to support them", s: "Accommodator" },
+          { t: "Make it clear this cannot happen again", s: "Assertive" },
+        ],
+      },
+      { q: "In negotiation, you usually focus on:",
+        options: [
+          { t: "Clarifying every detail", s: "Analyst" },
+          { t: "Building goodwill", s: "Accommodator" },
+          { t: "Getting to agreement quickly", s: "Assertive" },
+        ],
+      },
+      { q: "If someone is being vague:",
+        options: [
+          { t: "Request specific details", s: "Analyst" },
+          { t: "Encourage them to share more openly", s: "Accommodator" },
+          { t: "Push for a direct answer", s: "Assertive" },
+        ],
+      },
+      { q: "When working with new people:",
+        options: [
+          { t: "Observe and learn their style", s: "Analyst" },
+          { t: "Engage in small talk to connect", s: "Accommodator" },
+          { t: "Clarify roles and expectations fast", s: "Assertive" },
+        ],
+      },
+      { q: "You feel most comfortable when:",
+        options: [
+          { t: "The plan is clear and data backed", s: "Analyst" },
+          { t: "Everyone is on good terms", s: "Accommodator" },
+          { t: "Progress is being made quickly", s: "Assertive" },
+        ],
+      },
+      { q: "In resolving a conflict:",
+        options: [
+          { t: "Analyze what caused it", s: "Analyst" },
+          { t: "Focus on repairing relationships", s: "Accommodator" },
+          { t: "Address it head on to end it quickly", s: "Assertive" },
+        ],
+      },
+    ];
+
+    // Utility to shuffle arrays in place
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Render questions, shuffling options per question
+    const form = document.getElementById("quiz");
+    function renderQuiz() {
+      form.innerHTML = "";
+      const frag = document.createDocumentFragment();
+
+      const reqNote = document.createElement("div");
+      reqNote.className = "required-note";
+      reqNote.textContent = "All questions are required.";
+      frag.appendChild(reqNote);
+
+      QUESTIONS.forEach((qObj, idx) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        const qnum = document.createElement("div");
+        qnum.className = "qnum";
+        qnum.textContent = `Question ${idx + 1}`;
+        const q = document.createElement("div");
+        q.className = "q";
+        q.textContent = qObj.q;
+
+        // clone and shuffle options so the source order is preserved for future renders if needed
+        const options = shuffle(qObj.options.map(o => ({...o})));
+
+        const optsWrap = document.createElement("div");
+        optsWrap.className = "opts";
+        options.forEach((opt, optIdx) => {
+          const id = `q${idx}_opt${optIdx}`;
+          const label = document.createElement("label");
+          label.className = "opt";
+          label.setAttribute("for", id);
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `q${idx}`;
+          input.id = id;
+          input.value = opt.s; // store the style directly, no key leakage to the user
+          input.required = true;
+
+          const span = document.createElement("span");
+          span.textContent = opt.t;
+
+          label.appendChild(input);
+          label.appendChild(span);
+          optsWrap.appendChild(label);
+        });
+
+        item.appendChild(qnum);
+        item.appendChild(q);
+        item.appendChild(optsWrap);
+        frag.appendChild(item);
+      });
+
+      form.appendChild(frag);
+    }
+
+    renderQuiz();
+
+    // Scoring
+    const SUBMIT = document.getElementById("submitBtn");
+    const ERROR = document.getElementById("formError");
+    const RESULT = document.getElementById("result");
+
+    function validateAllAnswered() {
+      for (let i = 0; i < QUESTIONS.length; i++) {
+        const chosen = form.querySelector(`input[name="q${i}"]:checked`);
+        if (!chosen) {
+          return i; // return first missing index
+        }
+      }
+      return -1;
+    }
+
+    function summarize(counts) {
+      // Get default preference and tie note
+      const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      const top = entries[0];
+      const ties = entries.filter(e => e[1] === top[1]).map(e => e[0]);
+
+      let title, note;
+      if (ties.length > 1) {
+        title = `Tie: ${ties.join(", ")}`;
+        note = "You show balanced preferences across these styles. Review the descriptions below and consider your default under stress or time pressure.";
+      } else {
+        title = `Your default preference: ${top[0]}`;
+        note = "";
+      }
+
+      const desc = {
+        Analyst: "Methodical, data first, patient. Prefers clarity, structure, and careful pacing.",
+        Accommodator: "Relationship first, collaborative, warm. Prioritizes rapport and trust building.",
+        Assertive: "Direct, decisive, forward leaning. Drives action and values clarity of outcome."
+      };
+
+      const countsTxt = `Analyst ${counts.Analyst}, Accommodator ${counts.Accommodator}, Assertive ${counts.Assertive}`;
+
+      return {
+        title,
+        countsTxt,
+        note,
+        detail:
+          `<ul>
+            <li><strong>Analyst</strong>: ${desc.Analyst}</li>
+            <li><strong>Accommodator</strong>: ${desc.Accommodator}</li>
+            <li><strong>Assertive</strong>: ${desc.Assertive}</li>
+          </ul>`
+      };
+    }
+
+    function scrollToFirstMissing(missingIdx) {
+      const target = form.querySelector(`input[name="q${missingIdx}"]`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.focus({ preventScroll: true });
+      }
+    }
+
+    SUBMIT.addEventListener("click", () => {
+      ERROR.textContent = "";
+      RESULT.hidden = true;
+      const missing = validateAllAnswered();
+      if (missing !== -1) {
+        ERROR.textContent = `Please answer Question ${missing + 1} before submitting.`;
+        scrollToFirstMissing(missing);
+        return;
+      }
+
+      const counts = { Analyst: 0, Accommodator: 0, Assertive: 0 };
+      for (let i = 0; i < QUESTIONS.length; i++) {
+        const chosen = form.querySelector(`input[name="q${i}"]:checked`);
+        counts[chosen.value] += 1;
+      }
+
+      const summary = summarize(counts);
+      RESULT.innerHTML = `
+        <div style="font-weight:700; font-size:18px; margin-bottom:6px;">${summary.title}</div>
+        <div style="color:var(--muted); margin-bottom:10px;">Scores: ${summary.countsTxt}</div>
+        ${summary.note ? `<div style="margin-bottom:10px;">${summary.note}</div>` : ""}
+        <details>
+          <summary>View style descriptions</summary>
+          ${summary.detail}
+        </details>
+        <div class="footer">Pro tip, your default often shows up under stress or time pressure. Rerun later and answer for how you act when the stakes are high.</div>
+      `;
+      RESULT.hidden = false;
+      RESULT.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // Optional: warn before leaving if not submitted
+    let interacted = false;
+    document.addEventListener("change", () => { interacted = true; }, true);
+    window.addEventListener("beforeunload", (e) => {
+      const anyChecked = form.querySelector("input[type=radio]:checked");
+      if (interacted && !anyChecked) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    });
+  </script>
+</body>
+</html>
