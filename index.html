@@ -9,44 +9,222 @@
       --bg: #0b1020;
       --panel: #121830;
       --ink: #eaf0ff;
-      --muted: #a8b2d1;
+      --muted: #8b96b8;
       --accent: #6ea8fe;
       --accent-2: #8bd3ff;
       --warn: #ff8a8a;
       --ok: #7de28b;
       --card: #0f1428;
       --border: #1f2747;
+      --analyst-color: #7de28b;
+      --accommodator-color: #8bd3ff;
+      --assertive-color: #f4a96a;
     }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
-    .wrap { max-width: 940px; margin: 32px auto; padding: 0 16px 80px; }
-    header { margin-bottom: 20px; }
-    h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: 0.2px; }
-    p.topline { margin: 0 0 18px; color: var(--muted); }
-    .card { background: linear-gradient(180deg, var(--panel), var(--card)); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
-    .q { margin-bottom: 14px; font-weight: 600; }
-    .item { margin: 18px 0; padding: 16px; border: 1px solid var(--border); border-radius: 12px; }
-    .opts { display: grid; gap: 10px; }
-    label.opt { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 100px; }
+
+    /* Header */
+    header { margin-bottom: 36px; border-bottom: 1px solid var(--border); padding-bottom: 28px; }
+    h1 { margin: 0 0 8px; font-size: 26px; font-weight: 700; letter-spacing: 0.3px; font-family: system-ui, -apple-system, sans-serif; }
+    p.topline { margin: 0; color: var(--muted); font-size: 15px; font-family: system-ui, -apple-system, sans-serif; }
+    .style-pills { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      display: inline-block; padding: 3px 11px;
+      border: 1px solid var(--border); border-radius: 999px;
+      font-size: 12px; font-family: system-ui, -apple-system, sans-serif;
+      color: var(--muted); letter-spacing: 0.3px;
+    }
+
+    /* Quiz card */
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--card));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .required-note { font-size: 13px; color: var(--muted); margin-bottom: 20px; font-family: system-ui, -apple-system, sans-serif; }
+    .item { margin: 0 0 20px; padding: 18px; border: 1px solid var(--border); border-radius: 12px; }
+    .item:last-child { margin-bottom: 0; }
+    .qnum { font-size: 11px; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; font-family: system-ui, -apple-system, sans-serif; }
+    .q { font-weight: 600; margin-bottom: 14px; font-size: 15px; font-family: system-ui, -apple-system, sans-serif; }
+    .opts { display: grid; gap: 8px; }
+    label.opt {
+      display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start;
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+      font-family: system-ui, -apple-system, sans-serif; font-size: 14px;
+      transition: border-color 0.15s, background 0.15s;
+    }
     label.opt:hover { border-color: var(--accent); background: rgba(110,168,254,0.05); }
-    .qnum { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-    .actions { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(11,16,32,0), var(--bg) 45%); padding-top: 16px; margin-top: 24px; }
-    button { appearance: none; border: none; color: white; background: linear-gradient(90deg, var(--accent), var(--accent-2)); padding: 14px 18px; font-weight: 700; border-radius: 12px; cursor: pointer; box-shadow: 0 10px 20px rgba(110,168,254,0.25); }
+    label.opt:has(input:checked) { border-color: var(--accent); background: rgba(110,168,254,0.08); }
+    input[type="radio"] { margin-top: 2px; accent-color: var(--accent); }
+
+    /* Submit area */
+    .actions {
+      position: sticky; bottom: 0;
+      background: linear-gradient(180deg, rgba(11,16,32,0), var(--bg) 45%);
+      padding-top: 20px; margin-top: 28px;
+    }
+    button {
+      appearance: none; border: none; color: white;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      padding: 14px 26px; font-weight: 700; border-radius: 12px; cursor: pointer;
+      box-shadow: 0 8px 20px rgba(110,168,254,0.25);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 15px; letter-spacing: 0.2px;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
     button:disabled { filter: grayscale(0.6); opacity: 0.7; cursor: not-allowed; }
-    .error { color: var(--warn); margin-top: 10px; }
-    .result { margin-top: 22px; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: rgba(139,211,255,0.06); }
-    .pill { display: inline-block; padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 12px; margin-right: 6px; }
-    details { margin-top: 8px; }
-    summary { cursor: pointer; color: var(--accent); }
-    .footer { color: var(--muted); font-size: 12px; margin-top: 14px; }
-    .required-note { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .error { color: var(--warn); margin-top: 10px; font-size: 14px; font-family: system-ui, -apple-system, sans-serif; }
+
+    /* ---- RESULTS ---- */
+    .result {
+      margin-top: 28px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(15,20,40,0.6);
+    }
+
+    /* Result header band */
+    .result-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-label {
+      font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted); font-family: system-ui, -apple-system, sans-serif;
+      margin-bottom: 6px;
+    }
+    .result-title {
+      font-size: 24px; font-weight: 700; margin: 0 0 4px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .result-title.analyst   { color: var(--analyst-color); }
+    .result-title.accommodator { color: var(--accommodator-color); }
+    .result-title.assertive { color: var(--assertive-color); }
+    .result-title.tie       { color: var(--ink); }
+
+    /* Score bars */
+    .score-bars { padding: 20px 28px; border-bottom: 1px solid var(--border); }
+    .score-bars-label {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .score-row { display: grid; grid-template-columns: 110px 1fr 28px; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .score-row:last-child { margin-bottom: 0; }
+    .score-name { font-size: 13px; font-family: system-ui, -apple-system, sans-serif; color: var(--muted); text-align: right; }
+    .score-track { background: rgba(255,255,255,0.06); border-radius: 4px; height: 8px; overflow: hidden; }
+    .score-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+    .score-fill.analyst        { background: var(--analyst-color); }
+    .score-fill.accommodator   { background: var(--accommodator-color); }
+    .score-fill.assertive      { background: var(--assertive-color); }
+    .score-fill.dominant       { opacity: 1; }
+    .score-fill.secondary      { opacity: 0.65; }
+    .score-fill.tertiary       { opacity: 0.35; }
+    .score-num { font-size: 12px; color: var(--muted); font-family: system-ui, -apple-system, sans-serif; text-align: right; }
+
+    /* Profile sections */
+    .profile-body { padding: 28px; }
+    .profile-section { margin-bottom: 26px; }
+    .profile-section:last-child { margin-bottom: 0; }
+    .profile-section-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .profile-section p { margin: 0; font-size: 15px; line-height: 1.7; }
+
+    /* Stress note callout */
+    .stress-note {
+      background: rgba(110,168,254,0.07);
+      border: 1px solid rgba(110,168,254,0.2);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+    }
+    .stress-note-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .stress-note p { margin: 0; font-size: 14px; line-height: 1.65; color: #c8d8f5; }
+
+    /* Reframe box */
+    .reframe-box {
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid var(--accent);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 26px;
+    }
+    .reframe-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .reframe-box p { margin: 0; font-size: 14px; line-height: 1.65; }
+
+    /* Secondary style block */
+    .secondary-block {
+      border-top: 1px solid var(--border);
+      padding-top: 22px;
+      margin-top: 6px;
+    }
+    .secondary-block-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .secondary-block p { margin: 0; font-size: 14px; line-height: 1.65; color: #c8d8f5; }
+
+    /* Tie block */
+    .tie-block { padding: 28px; }
+    .tie-intro { font-size: 15px; margin-bottom: 22px; line-height: 1.7; }
+    .tie-styles { display: grid; gap: 16px; }
+    .tie-style-card { padding: 16px; border: 1px solid var(--border); border-radius: 10px; }
+    .tie-style-name { font-weight: 700; font-size: 14px; margin-bottom: 6px; font-family: system-ui, -apple-system, sans-serif; }
+    .tie-style-card p { margin: 0; font-size: 14px; line-height: 1.65; }
+
+    /* Attribution */
+    .attribution {
+      border-top: 1px solid var(--border);
+      padding: 18px 28px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+    .attribution a { color: var(--accent); text-decoration: none; }
+    .attribution a:hover { text-decoration: underline; }
+
+    @media (max-width: 540px) {
+      .wrap { padding: 24px 14px 80px; }
+      .result-header, .score-bars, .profile-body, .attribution { padding-left: 18px; padding-right: 18px; }
+      .score-row { grid-template-columns: 90px 1fr 24px; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Negotiation Style Assessment</h1>
-      <p class="topline">Answer all 20 questions by choosing the option that is closest to how you usually operate. Options are shuffled on each load.</p>
-      <div class="pill">Analyst</div><div class="pill">Accommodator</div><div class="pill">Assertive</div>
+      <h1>Negotiation Style Assessment (v2)</h1>
+      <p class="topline">Answer all 20 questions by choosing the option closest to how you usually operate. Options are shuffled on each load.</p>
+      <div class="style-pills">
+        <span class="pill">Analyst</span>
+        <span class="pill">Accommodator</span>
+        <span class="pill">Assertive</span>
+      </div>
     </header>
 
     <form id="quiz" class="card" novalidate></form>
@@ -54,12 +232,12 @@
     <div class="actions">
       <button id="submitBtn" type="button">Submit and Score</button>
       <div id="formError" class="error" role="alert" aria-live="polite"></div>
-      <div id="result" class="result" hidden></div>
     </div>
+
+    <div id="result" class="result" hidden style="margin-top: 28px;"></div>
   </div>
 
   <script>
-    // Core data. Each option has text and style tag. Options are shuffled at render time.
     const QUESTIONS = [
       { q: "When preparing for a big meeting, you usually:",
         options: [
@@ -152,7 +330,7 @@
           { t: "Keep it short and to the point", s: "Assertive" },
         ],
       },
-      { q: "Your reaction to last minute changes:",
+      { q: "Your reaction to last-minute changes:",
         options: [
           { t: "Review the impact before responding", s: "Analyst" },
           { t: "Stay positive and help others adapt", s: "Accommodator" },
@@ -189,7 +367,7 @@
       },
       { q: "You feel most comfortable when:",
         options: [
-          { t: "The plan is clear and data backed", s: "Analyst" },
+          { t: "The plan is clear and data-backed", s: "Analyst" },
           { t: "Everyone is on good terms", s: "Accommodator" },
           { t: "Progress is being made quickly", s: "Assertive" },
         ],
@@ -198,12 +376,58 @@
         options: [
           { t: "Analyze what caused it", s: "Analyst" },
           { t: "Focus on repairing relationships", s: "Accommodator" },
-          { t: "Address it head on to end it quickly", s: "Assertive" },
+          { t: "Address it head-on to end it quickly", s: "Assertive" },
         ],
       },
     ];
 
-    // Utility to shuffle arrays in place
+    // --- Style profile content ---
+
+    const PROFILES = {
+      Analyst: {
+        colorClass: "analyst",
+        orientation: "Your default posture is to understand before acting. You prioritize accuracy and structural completeness, and you treat silence as a working state rather than a problem to solve. In most situations, you want more information before you commit to a position, and you are more likely to ask a clarifying question than to stake out ground before the picture is clear.",
+        natural: "In a negotiation, you tend to ask clarifying questions, return to data when the conversation gets heated, and treat an unreasonable opening offer as something to be checked rather than challenged. You stay calm, but that calm can read as disengagement to the people in the room with you. You are often the person who identifies the structural cause of a problem while everyone else is arguing about symptoms.",
+        blindspot: "The Analyst's characteristic failure happens under pressure from a dominant personality in the room. When someone pushes hard, Analysts tend to go quiet and withdraw to verify rather than holding their position and speaking. This is precisely the moment the room most needs what you know. The data you are retreating to check may matter far less than the perspective you are withholding right now.",
+        stressNote: "Your default behavior becomes most visible when stakes are high and time is short. Under pressure, Analysts tend to go quiet rather than incomplete, and they can miss the window to contribute while waiting for certainty that will not arrive in time.",
+        reframe: "When someone pushes hard or makes an unreasonable claim, resist the impulse to withdraw and recheck your data. You already know more than they do about the structural issues. Ask one clarifying question instead of going silent. Staying present in the room is often more valuable than the additional verification you think you need.",
+      },
+      Accommodator: {
+        colorClass: "accommodator",
+        orientation: "Your default posture centers on the relationship. You treat trust and rapport not just as tools but as genuine goals in themselves, and you are attentive to whether people in the room feel heard and respected. You tend to move toward agreement and away from friction, which makes you effective at maintaining working relationships across time.",
+        natural: "In a negotiation, you offer empathy, look for common ground, and are willing to concede a point to keep the conversation productive. You are often the person who notices when someone feels dismissed and adjusts accordingly. You fill silence because it feels uncomfortable, and you tend to smooth things over before the underlying issue has been fully worked through.",
+        blindspot: "The Accommodator's characteristic failure is premature concession. Under pressure, and especially when faced with a personal attack, Accommodators tend to absorb the criticism and wonder whether it might be deserved. This is not reconsideration. It is capitulation. A related risk: over time, the same instinct that helps your team survive a crisis can normalize chronic problems by reframing each one as evidence of resilience.",
+        stressNote: "Your default behavior becomes most visible when the relationship feels at risk. Under pressure, Accommodators tend to concede or smooth things over rather than holding position, which can leave important issues unresolved and create the impression that any aggressive posture will eventually yield ground.",
+        reframe: "Recognize that silence does not require filling, and that concessions do not restore relationships. They postpone disagreements. When you feel the pull to smooth something over, try naming what you observe instead. Saying 'it sounds like we are stuck on this point' keeps you engaged without giving ground you did not intend to give.",
+      },
+      Assertive: {
+        colorClass: "assertive",
+        orientation: "Your default posture is oriented toward outcomes and time. You value clarity of result, move quickly toward decisions, and are comfortable staking out a position early. You read ambiguity as inefficiency and tend to interpret a lack of resolution as someone failing to do their job. In a negotiation, you often know what you want before the other side has finished talking.",
+        natural: "In a negotiation, you anchor early, push back hard when challenged, and keep the conversation moving toward resolution. You are direct about what you want and impatient with process that does not seem to be getting anywhere. You can read a room quickly for who has authority and who does not, and you tend to address the person who can make a decision rather than building consensus from the bottom up.",
+        blindspot: "The Assertive's characteristic failure is escalation when the situation called for a question. When someone makes an unreasonable demand or challenges your position, the natural Assertive response is to counter harder, which can turn a manageable disagreement into a stalemate or worse. The most dangerous version of this is in team settings: Assertive pressure after a failure can silence the Analysts in the room who are the ones best positioned to identify what actually went wrong.",
+        stressNote: "Your default behavior becomes most visible under challenge or time pressure. When stakes are high, Assertives tend to push harder and interpret pushback as a challenge to be met rather than a signal to slow down. Silence is not your instinct, but it is often your most powerful available move.",
+        reframe: "When something unexpected happens in a negotiation, slow down before responding. A calm question, such as 'how am I supposed to work with that?' puts the burden of explanation on the other side, buys you time to think, and does not escalate the situation. The person who keeps their composure when the other side does not usually ends up with more of what they wanted.",
+      },
+    };
+
+    // --- Tie combination descriptions ---
+
+    const TIE_COMBOS = {
+      "Analyst+Accommodator": {
+        title: "Analyst and Accommodator",
+        desc: "This combination tends toward caution on two fronts simultaneously. You wait for more information before acting, and you wait for clearer consensus before speaking. The result can be a posture that withholds both action and confrontation for longer than the situation warrants. Your strength is genuine attentiveness to both facts and people. The risk is that by the time you feel ready to say something, the window has passed."
+      },
+      "Analyst+Assertive": {
+        title: "Analyst and Assertive",
+        desc: "This combination is driven but conditional. You push for outcomes and move quickly, but you need data to back the move before you fully commit. The tension between impatience and the need for verification is a recurring internal conflict. At its best, this produces well-supported positions held firmly. Under pressure, it can produce oscillation between decisive action and sudden withdrawal to recheck assumptions."
+      },
+      "Accommodator+Assertive": {
+        title: "Accommodator and Assertive",
+        desc: "This combination drives for outcomes but pulls back when relationships seem at risk. You are comfortable staking out a position until the friction becomes personal, at which point the Accommodator instinct takes over and you look for a way to restore the relationship. This creates an exploitable pattern: counterparts who sense the shift can apply social pressure to move you off a position that was otherwise well-founded."
+      },
+    };
+
+    // --- Utility ---
     function shuffle(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -212,12 +436,11 @@
       return arr;
     }
 
-    // Render questions, shuffling options per question
+    // --- Render quiz ---
     const form = document.getElementById("quiz");
     function renderQuiz() {
       form.innerHTML = "";
       const frag = document.createDocumentFragment();
-
       const reqNote = document.createElement("div");
       reqNote.className = "required-note";
       reqNote.textContent = "All questions are required.";
@@ -228,14 +451,12 @@
         item.className = "item";
         const qnum = document.createElement("div");
         qnum.className = "qnum";
-        qnum.textContent = `Question ${idx + 1}`;
+        qnum.textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
         const q = document.createElement("div");
         q.className = "q";
         q.textContent = qObj.q;
 
-        // clone and shuffle options so the source order is preserved for future renders if needed
         const options = shuffle(qObj.options.map(o => ({...o})));
-
         const optsWrap = document.createElement("div");
         optsWrap.className = "opts";
         options.forEach((opt, optIdx) => {
@@ -243,17 +464,14 @@
           const label = document.createElement("label");
           label.className = "opt";
           label.setAttribute("for", id);
-
           const input = document.createElement("input");
           input.type = "radio";
           input.name = `q${idx}`;
           input.id = id;
-          input.value = opt.s; // store the style directly, no key leakage to the user
+          input.value = opt.s;
           input.required = true;
-
           const span = document.createElement("span");
           span.textContent = opt.t;
-
           label.appendChild(input);
           label.appendChild(span);
           optsWrap.appendChild(label);
@@ -267,66 +485,166 @@
 
       form.appendChild(frag);
     }
-
     renderQuiz();
 
-    // Scoring
+    // --- Score bars HTML ---
+    function renderScoreBars(counts, dominant, tiedStyles) {
+      const total = QUESTIONS.length;
+      const styles = ["Analyst", "Accommodator", "Assertive"];
+      const sorted = [...styles].sort((a, b) => counts[b] - counts[a]);
+
+      let html = `<div class="score-bars">
+        <div class="score-bars-label">Score breakdown</div>`;
+
+      sorted.forEach((s, rank) => {
+        const pct = Math.round((counts[s] / total) * 100);
+        let rankClass = rank === 0 ? "dominant" : rank === 1 ? "secondary" : "tertiary";
+        if (tiedStyles && tiedStyles.length > 1 && tiedStyles.includes(s)) rankClass = "dominant";
+        html += `
+          <div class="score-row">
+            <div class="score-name">${s}</div>
+            <div class="score-track">
+              <div class="score-fill ${s.toLowerCase()} ${rankClass}" style="width: ${pct}%"></div>
+            </div>
+            <div class="score-num">${counts[s]}</div>
+          </div>`;
+      });
+
+      html += `</div>`;
+      return html;
+    }
+
+    // --- Build single-style result HTML ---
+    function buildSingleResult(dominant, secondary, counts) {
+      const p = PROFILES[dominant];
+      const sP = PROFILES[secondary];
+      const tiedStyles = null;
+
+      let html = `
+        <div class="result-header">
+          <div class="result-label">Your dominant negotiation style</div>
+          <div class="result-title ${p.colorClass}">${dominant}</div>
+        </div>
+        ${renderScoreBars(counts, dominant, tiedStyles)}
+        <div class="profile-body">
+
+          <div class="profile-section">
+            <div class="profile-section-head">Core orientation</div>
+            <p>${p.orientation}</p>
+          </div>
+
+          <div class="profile-section">
+            <div class="profile-section-head">What you do naturally in negotiation</div>
+            <p>${p.natural}</p>
+          </div>
+
+          <div class="profile-section">
+            <div class="profile-section-head">Characteristic blind spot</div>
+            <p>${p.blindspot}</p>
+          </div>
+
+          <div class="stress-note">
+            <div class="stress-note-head">Under pressure</div>
+            <p>${p.stressNote}</p>
+          </div>
+
+          <div class="reframe-box">
+            <div class="reframe-head">One reframe worth practicing</div>
+            <p>${p.reframe}</p>
+          </div>
+
+          <div class="secondary-block">
+            <div class="secondary-block-head">Your secondary style: ${secondary}</div>
+            <p>${getSecondaryNote(dominant, secondary)}</p>
+          </div>
+
+        </div>
+        ${renderAttribution()}
+      `;
+      return html;
+    }
+
+    // --- Build tie result HTML ---
+    function buildTieResult(tiedStyles, counts) {
+      const comboKey = getTieComboKey(tiedStyles);
+      const combo = TIE_COMBOS[comboKey];
+      const titleStr = tiedStyles.join(" / ");
+
+      let html = `
+        <div class="result-header">
+          <div class="result-label">Your scores reflect a balanced split</div>
+          <div class="result-title tie">${titleStr}</div>
+        </div>
+        ${renderScoreBars(counts, null, tiedStyles)}
+        <div class="tie-block">
+          <p class="tie-intro">A tied score is real information, not an inconclusive result. It means two orientations are close to equally active in how you read a situation. What follows describes how that particular combination tends to show up in practice.</p>
+          ${combo ? `
+          <div class="tie-styles">
+            <div class="tie-style-card">
+              <div class="tie-style-name">${combo.title}</div>
+              <p>${combo.desc}</p>
+            </div>
+          </div>
+          ` : `
+          <div class="tie-styles">
+            ${tiedStyles.map(s => `
+            <div class="tie-style-card">
+              <div class="tie-style-name" style="color:var(--${PROFILES[s].colorClass}-color)">${s}</div>
+              <p>${PROFILES[s].orientation}</p>
+            </div>`).join('')}
+          </div>
+          `}
+          <div class="stress-note" style="margin-top:22px;">
+            <div class="stress-note-head">Under pressure</div>
+            <p>When time is short or stakes are high, one of these styles will typically surface as the default. Retake the assessment and answer as you would when the pressure is on. That version of the results is usually more diagnostic than this one.</p>
+          </div>
+        </div>
+        ${renderAttribution()}
+      `;
+      return html;
+    }
+
+    function getTieComboKey(styles) {
+      const sorted = [...styles].sort();
+      return sorted.join("+");
+    }
+
+    function getSecondaryNote(dominant, secondary) {
+      const combos = {
+        "Analyst+Accommodator": "Your secondary Accommodator tendency means you are attentive to how people in the room are responding, even while you are primarily focused on the facts. This is an asset when your analytical conclusions need to be communicated to people who process information relationally. The risk is that this combination can make you reluctant to deliver an uncomfortable finding when the room clearly does not want to hear it.",
+        "Analyst+Assertive": "Your secondary Assertive tendency means you are not simply waiting for perfect information. You have a drive to move toward resolution, and when you have enough data, you tend to move quickly. This combination can be effective in technical negotiations where preparation matters. The risk is impatience when your preparation is incomplete and the situation demands action anyway.",
+        "Accommodator+Analyst": "Your secondary Analyst tendency means you are not simply managing relationships. You are also tracking whether things are actually correct, not just comfortable. This makes you more credible than a pure Accommodator because you will eventually push back when the facts do not hold up. The challenge is that you may do so slowly, after the moment of maximum leverage has passed.",
+        "Accommodator+Assertive": "Your secondary Assertive tendency means you can drive hard for outcomes until the relationship cost becomes visible, at which point you tend to pull back. This combination can be read as inconsistent by counterparts who learn to apply social pressure when you have otherwise held a strong position.",
+        "Assertive+Analyst": "Your secondary Analyst tendency means you are not simply pushing toward a result. You want the result to be defensible. This is a useful check on pure Assertive behavior, particularly in institutional settings where a bad decision made quickly has lasting consequences. The challenge is that this combination can stall at the point where more analysis would require more time than you are willing to spend.",
+        "Assertive+Accommodator": "Your secondary Accommodator tendency means you are aware of the relational cost of hard positions, even when you hold them. You are more likely than a pure Assertive to adjust your approach when you sense you are creating unnecessary friction. This is an asset in long-term negotiations where the relationship has to survive the outcome."
+      };
+      const key = `${dominant}+${secondary}`;
+      return combos[key] || `A secondary ${secondary} tendency means elements of that style also shape how you read situations, particularly as the dynamics shift.`;
+    }
+
+    function renderAttribution() {
+      return `
+        <div class="attribution">
+          The three-style framework (Analyst, Accommodator, Assertive) is drawn from Chris Voss, <em>Never Split the Difference</em> (2016). The application of these styles to institutional leadership, team dynamics, and negotiation escalation is developed in Timothy Chester's series <em>Dispatches from an Internet Pioneer</em>, published on Substack. The series includes <a href="https://dispatchesinternetpioneer.substack.com/p/know-your-negotiation-style" target="_blank" rel="noopener">Know Your Negotiation Style</a>, <a href="https://dispatchesinternetpioneer.substack.com/p/the-hidden-ladder-in-every-negotiation" target="_blank" rel="noopener">The Hidden Ladder in Every Negotiation</a>, and <a href="https://dispatchesinternetpioneer.substack.com/p/b60bcdbd-6a51-4f3b-8617-51c677e38198" target="_blank" rel="noopener">Negotiation Styles and the Escalation Ladder</a>.
+        </div>
+      `;
+    }
+
+    // --- Scoring and submission ---
     const SUBMIT = document.getElementById("submitBtn");
     const ERROR = document.getElementById("formError");
     const RESULT = document.getElementById("result");
 
     function validateAllAnswered() {
       for (let i = 0; i < QUESTIONS.length; i++) {
-        const chosen = form.querySelector(`input[name="q${i}"]:checked`);
-        if (!chosen) {
-          return i; // return first missing index
-        }
+        if (!form.querySelector(`input[name="q${i}"]:checked`)) return i;
       }
       return -1;
     }
 
-    function summarize(counts) {
-      // Get default preference and tie note
-      const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-      const top = entries[0];
-      const ties = entries.filter(e => e[1] === top[1]).map(e => e[0]);
-
-      let title, note;
-      if (ties.length > 1) {
-        title = `Tie: ${ties.join(", ")}`;
-        note = "You show balanced preferences across these styles. Review the descriptions below and consider your default under stress or time pressure.";
-      } else {
-        title = `Your default preference: ${top[0]}`;
-        note = "";
-      }
-
-      const desc = {
-        Analyst: "Methodical, data first, patient. Prefers clarity, structure, and careful pacing.",
-        Accommodator: "Relationship first, collaborative, warm. Prioritizes rapport and trust building.",
-        Assertive: "Direct, decisive, forward leaning. Drives action and values clarity of outcome."
-      };
-
-      const countsTxt = `Analyst ${counts.Analyst}, Accommodator ${counts.Accommodator}, Assertive ${counts.Assertive}`;
-
-      return {
-        title,
-        countsTxt,
-        note,
-        detail:
-          `<ul>
-            <li><strong>Analyst</strong>: ${desc.Analyst}</li>
-            <li><strong>Accommodator</strong>: ${desc.Accommodator}</li>
-            <li><strong>Assertive</strong>: ${desc.Assertive}</li>
-          </ul>`
-      };
-    }
-
-    function scrollToFirstMissing(missingIdx) {
-      const target = form.querySelector(`input[name="q${missingIdx}"]`);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "center" });
-        target.focus({ preventScroll: true });
-      }
+    function scrollToFirstMissing(idx) {
+      const target = form.querySelector(`input[name="q${idx}"]`);
+      if (target) { target.scrollIntoView({ behavior: "smooth", block: "center" }); target.focus({ preventScroll: true }); }
     }
 
     SUBMIT.addEventListener("click", () => {
@@ -341,31 +659,36 @@
 
       const counts = { Analyst: 0, Accommodator: 0, Assertive: 0 };
       for (let i = 0; i < QUESTIONS.length; i++) {
-        const chosen = form.querySelector(`input[name="q${i}"]:checked`);
-        counts[chosen.value] += 1;
+        counts[form.querySelector(`input[name="q${i}"]:checked`).value]++;
       }
 
-      const summary = summarize(counts);
-      RESULT.innerHTML = `
-        <div style="font-weight:700; font-size:18px; margin-bottom:6px;">${summary.title}</div>
-        <div style="color:var(--muted); margin-bottom:10px;">Scores: ${summary.countsTxt}</div>
-        ${summary.note ? `<div style="margin-bottom:10px;">${summary.note}</div>` : ""}
-        <details>
-          <summary>View style descriptions</summary>
-          ${summary.detail}
-        </details>
-        <div class="footer">Pro tip, your default often shows up under stress or time pressure. Rerun later and answer for how you act when the stakes are high.</div>
-      `;
+      const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      const topScore = entries[0][1];
+      const tied = entries.filter(e => e[1] === topScore).map(e => e[0]);
+
+      let html;
+      if (tied.length === 1) {
+        const dominant = entries[0][0];
+        const secondary = entries[1][0];
+        html = buildSingleResult(dominant, secondary, counts);
+      } else {
+        html = buildTieResult(tied, counts);
+      }
+
+      RESULT.innerHTML = html;
       RESULT.hidden = false;
-      RESULT.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // Scroll to results after layout is complete
+      setTimeout(() => {
+        RESULT.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
     });
 
-    // Optional: warn before leaving if not submitted
+    // Warn before leaving if partially answered
     let interacted = false;
     document.addEventListener("change", () => { interacted = true; }, true);
     window.addEventListener("beforeunload", (e) => {
-      const anyChecked = form.querySelector("input[type=radio]:checked");
-      if (interacted && !anyChecked) {
+      if (interacted && form.querySelector("input[type=radio]:checked")) {
         e.preventDefault();
         e.returnValue = "";
       }
