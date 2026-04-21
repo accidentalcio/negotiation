@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Negotiation Style Assessment (v3)</title>
+  <title>Negotiation Style Assessment (v5)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -160,6 +160,39 @@
     }
     .stress-note p { margin: 0; font-size: 14px; line-height: 1.65; color: #c8d8f5; }
 
+    /* Strengths block */
+    .strengths-block {
+      background: rgba(125,226,139,0.05);
+      border: 1px solid rgba(125,226,139,0.18);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+    }
+    .strengths-block.accommodator { background: rgba(139,211,255,0.05); border-color: rgba(139,211,255,0.18); }
+    .strengths-block.assertive    { background: rgba(244,169,106,0.05); border-color: rgba(244,169,106,0.18); }
+    .strengths-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .strengths-block p { margin: 0; font-size: 14px; line-height: 1.65; }
+
+    /* Silence block */
+    .silence-block {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--muted);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 16px;
+      margin-bottom: 26px;
+    }
+    .silence-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .silence-block p { margin: 0; font-size: 14px; line-height: 1.65; }
+
     /* Failure block */
     .failure-block {
       border: 1px solid var(--border);
@@ -228,7 +261,7 @@
 <body>
   <div class="wrap">
     <header>
-      <h1>Negotiation Style Assessment (v3)</h1>
+      <h1>Negotiation Style Assessment <span style="font-weight:400; color:var(--muted); font-size:18px;">(v5)</span></h1>
       <p class="topline">Answer all 20 questions by choosing the option closest to how you usually operate. Options are shuffled on each load.</p>
       <div class="style-pills">
         <span class="pill">Analyst</span>
@@ -397,10 +430,12 @@
       Analyst: {
         colorClass: "analyst",
         orientation: "Your default posture is to understand before acting. You prioritize accuracy and structural completeness, and you treat silence as a working state rather than a problem to solve. In most situations, you want more information before you commit to a position, and you are more likely to ask a clarifying question than to stake out ground before the picture is clear.",
-        natural: "In a negotiation, you tend to ask clarifying questions, return to data when the conversation gets heated, and treat an unreasonable opening offer as something to be checked rather than challenged. You stay calm, but that calm can read as disengagement to the people in the room with you. You are often the person who identifies the structural cause of a problem while everyone else is arguing about symptoms.",
+        strengths: "Methodical, deeply prepared, and rarely surprised at the table. You treat an extreme opening offer as inaccurate rather than offensive, which keeps you from reacting when others would. You are typically the person in the room who identifies the structural cause of a problem while everyone else is still arguing about symptoms.",
+        natural: "In a negotiation, you ask clarifying questions, return to data when the conversation gets heated, and stay calm when others escalate. That calm is real and useful, but it can read as disengagement to the people in the room. You are most effective when the process is orderly and you have had time to prepare.",
+        silence: "Silence is a natural working state for you, not a signal of displeasure or disengagement. You use it to think. The risk is not that you misuse silence; it is that others misread you while you are using it well. They interpret the quiet as withdrawal or indifference. The discipline is to signal that you are still present: a brief 'give me a moment' keeps you in the room and keeps others from filling the space in ways that complicate the negotiation.",
         failure: {
           trigger: "Direct emotional pressure, in public, or under tight time constraints. It can come from any style, but Assertives generate it most reliably. The Analyst's strength is preparation and precision, and their approach depends on orderly process. When a counterpart introduces urgency, emotional heat, or a public audience, that model breaks down.",
-          mode: "The Analyst withdraws at precisely the moment the room most needs their voice. They want more data, more time, more certainty before responding. That silence reads as disengagement to everyone else, and the Assertive fills the space by pressing harder. There is a compounding problem: the Analyst's measured, distant delivery can inadvertently trigger the Assertive's escalation instinct, creating exactly the irrational environment the Analyst is least equipped to handle.",
+          mode: "The Analyst withdraws at precisely the moment the room most needs their voice. They want more data, more time, more certainty before responding. That silence reads as disengagement to everyone else, and the Assertive fills the space by pressing harder. There is a compounding problem: the Analyst's measured, distant delivery can inadvertently trigger the Assertive's escalation instinct, creating exactly the irrational environment the Analyst is least equipped to handle. The Analyst's voice, the one most likely to identify the structural issue, exits the conversation precisely when it matters most.",
           voss: "Name the pressure before retreating from it. Saying something like 'it seems like the timeline is creating urgency on your side' slows the room without confrontation. When direct authority is asserted, acknowledge the directive and then outline the consequences in plain sequence. This restores order to your thinking and gives the other side something concrete to engage rather than an opponent to overwhelm.",
           karrass: "Trust your preparation. If you have done the work, you know the floor. You do not need more time in that moment; you need to act on the preparation you already completed. You do not rise to the occasion under pressure. You fall to your highest level of preparation. The defense against emotional pressure is not more analysis. It is the confidence that comes from preparation finished before the room got hot.",
         },
@@ -409,11 +444,13 @@
       Accommodator: {
         colorClass: "accommodator",
         orientation: "Your default posture centers on the relationship. You treat trust and rapport not just as tools but as genuine goals in themselves, and you are attentive to whether people in the room feel heard and respected. You tend to move toward agreement and away from friction, which makes you effective at maintaining working relationships across time.",
-        natural: "In a negotiation, you offer empathy, look for common ground, and are willing to concede a point to keep the conversation productive. You are often the person who notices when someone feels dismissed and adjusts accordingly. You fill silence because it feels uncomfortable, and you tend to smooth things over before the underlying issue has been fully worked through.",
+        strengths: "Rapport and listening. You build the relationship first and the negotiation second. You use inclusive language, notice when people feel dismissed, and are the style most likely to sustain a working relationship across a difficult outcome. Counterparts tend to trust you, which means they are more likely to share information that others never hear.",
+        natural: "In a negotiation, you offer empathy, look for common ground, and are willing to concede a point to keep the conversation productive. You fill silence because it feels uncomfortable, and you tend to smooth things over before the underlying issue has been fully worked through. You often identify your own objections beforehand and leave them unspoken rather than risk the conflict that surfacing them might cause.",
+        silence: "Silence feels like a threat, but it is actually leverage. The discipline is learning to hold it rather than spend it. The discomfort you feel when the room goes cold is the same discomfort the counterpart feels. Whoever fills that silence first typically gives something up. Your job in those moments is to let the other side go first. What feels like relational rupture is often just the other side waiting to see what you will offer.",
         failure: {
-          trigger: "Silence. From any style, but most acutely from Assertives. The Accommodator reads silence as a signal that the relationship is in trouble. Where an Analyst experiences silence as space to think, the Accommodator experiences it as withdrawal, disapproval, or rupture. The longer the silence holds, the more urgent the need to repair it.",
-          mode: "The Accommodator offers a premature concession to restore the conversational flow, before the negotiation has fully begun. The result is resentful compliance: you say yes to end the silence, the agreement never feels fair internally, and the work gets slow-rolled later. A related failure: Accommodators will often have identified their own objections beforehand and leave them unaddressed out of fear of the conflict that surfacing them might cause. Both Assertives and Analysts need to hear those objections.",
-          voss: "Treat silence as leverage, not as a threat. The discomfort you feel during silence is often the strongest leverage available to you. Breathe through it. Before making any concession, ask a question that transfers the burden back to the other side: something like 'how am I supposed to work with that?' slows the tempo and keeps you from giving ground before you need to.",
+          trigger: "A counterpart who uses deliberate emotional withdrawal: silence, clipped responses, a shift from warm to transactional. The Accommodator reads this as the relationship breaking and moves immediately to repair it, often before assessing whether the rupture is real or manufactured. A skilled Assertive who simply stops being warm can trigger this instinct without even trying. The kryptonite is not silence in the abstract; it is the misreading of a cold room as a broken relationship.",
+          mode: "The Accommodator offers a premature concession to restore warmth before the negotiation has fully begun. The result is resentful compliance: yes said to end the discomfort, followed by slow-rolled execution because the agreement never felt fair. A compounding risk: objections that were identified beforehand but left unspoken out of fear of conflict will still shape implementation, even though they never entered the room.",
+          voss: "Recognize that silence is leverage, not a threat, and learn to hold it rather than spend it. Before making any concession, ask a question that transfers the burden back: something like 'how am I supposed to work with that?' slows the tempo and forces justification from the other side. Your objections need to be in the room. Both Assertives and Analysts need to hear them.",
           karrass: "Use a conditional yes to protect your position without requiring a confrontational no. 'We can do that, provided the timeline shifts.' The concession is contingent, the relationship is preserved, and your position enters the record. Every concession should be framed as a trade. Something given should always have something attached.",
         },
         stressNote: "Your default behavior becomes most visible when the relationship feels at risk. Under pressure, Accommodators tend to concede or smooth things over rather than holding position, which can leave important issues unresolved and create the impression that any aggressive posture will eventually yield ground.",
@@ -421,10 +458,12 @@
       Assertive: {
         colorClass: "assertive",
         orientation: "Your default posture is oriented toward outcomes and time. You value clarity of result, move quickly toward decisions, and are comfortable staking out a position early. You read ambiguity as inefficiency and tend to interpret a lack of resolution as someone failing to do their job. In a negotiation, you often know what you want before the other side has finished talking.",
+        strengths: "Momentum. You move fast, drive toward outcomes, and treat time as the primary currency. Your position is clear early, which means counterparts always know where they stand. You are decisive under pressure and rarely need a second conversation to say what a first conversation should have settled.",
         natural: "In a negotiation, you anchor early, push back hard when challenged, and keep the conversation moving toward resolution. You are direct about what you want and impatient with process that does not seem to be getting anywhere. You can read a room quickly for who has authority and who does not, and you tend to address the person who can make a decision rather than building consensus from the bottom up.",
+        silence: "Every silence is an opportunity to speak more. The Assertive's discipline is to resist that urge. Silence is not indecision; it is presence. Holding a pause signals control rather than filling the space with words that burn leverage. The counterpart who speaks first after a difficult moment usually gives something up. Learning to sit in that discomfort without filling it is one of the highest-value skills an Assertive can develop.",
         failure: {
           trigger: "A data-fluent counterpart who is willing to hold the floor. A pure Analyst is manageable; they tend to go quiet and you fill the space. But an Analyst who holds their ground and deploys data systematically, without urgency or emotional signal, is a different problem. There is nothing to counter-punch. There is only evidence, calmly delivered, waiting to be addressed.",
-          mode: "The Assertive reads the data-driven challenge as a challenge to their position and escalates, or gets irritated in a way that accelerates escalation. The instinct is to match force with force, but there is no force to match. The conversation becomes a contest over credibility rather than a problem-solving exchange. The Assertive typically walks away having conceded credibility without gaining ground.",
+          mode: "The Assertive reads the data-driven challenge as a challenge to their position and escalates, or gets irritated in a way that accelerates escalation. The instinct is to match force with force, but there is no force to match. The conversation becomes a contest over credibility, and the Assertive typically concedes ground without gaining any.",
           voss: "Consciously soften your tone. Rather than dismissing the data, try naming the dynamic: something like 'it seems like we are working from different sets of numbers' creates space for the other side to confirm or correct, and shifts the exchange from contest to dialogue. Probe the data position with questions rather than attacking it. The discipline here is tone, not argument.",
           karrass: "Do not take a data-anchored position at face value. Test it. Ask for the reasoning, the constraints, and the context. Even a well-prepared data position has soft spots. The principle is to out-learn, not out-argue. Preparation before the negotiation is your most reliable defense against being caught without an answer when someone deploys evidence you did not anticipate.",
         },
@@ -555,13 +594,23 @@
             <p>${p.orientation}</p>
           </div>
 
+          <div class="strengths-block ${p.colorClass}">
+            <div class="strengths-head">Strengths</div>
+            <p>${p.strengths}</p>
+          </div>
+
           <div class="profile-section">
             <div class="profile-section-head">What you do naturally in negotiation</div>
             <p>${p.natural}</p>
           </div>
 
+          <div class="silence-block">
+            <div class="silence-head">Managing silence</div>
+            <p>${p.silence}</p>
+          </div>
+
           <div class="failure-block">
-            <div class="failure-block-head">Where this style tends to fail</div>
+            <div class="failure-block-head">${dominant} Kryptonite: Where This Style Tends to Fail</div>
             <div class="failure-section">
               <div class="failure-section-label">The trigger</div>
               <p>${p.failure.trigger}</p>
@@ -571,11 +620,11 @@
               <p>${p.failure.mode}</p>
             </div>
             <div class="failure-section prescription">
-              <div class="failure-section-label">Voss</div>
+              <div class="failure-section-label">What Chris Voss Would Say</div>
               <p>${p.failure.voss}</p>
             </div>
             <div class="failure-section prescription">
-              <div class="failure-section-label">Karrass</div>
+              <div class="failure-section-label">What Chester Karrass Would Say</div>
               <p>${p.failure.karrass}</p>
             </div>
           </div>
