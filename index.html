@@ -240,6 +240,8 @@
     }
     .attribution a { color: var(--accent); text-decoration: none; }
     .attribution a:hover { text-decoration: underline; }
+    .attribution a.book-link { color: #d4a843; }
+    .attribution a.book-link:hover { text-decoration: underline; }
 
     @media (max-width: 540px) {
       .intro-inner { padding: 40px 14px 60px; }
@@ -721,7 +723,7 @@
     function renderAttribution() {
       return `
         <div class="attribution">
-          The three-style framework (Analyst, Accommodator, Assertive) is drawn from Chris Voss, <em>Never Split the Difference</em> (2016). The application of these styles to institutional leadership, team dynamics, and negotiation escalation is developed in Timothy Chester's series <em>Dispatches from an Internet Pioneer</em>, published on Substack. The series includes <a href="https://dispatchesinternetpioneer.substack.com/p/know-your-negotiation-style" target="_blank" rel="noopener">Know Your Negotiation Style</a>, <a href="https://dispatchesinternetpioneer.substack.com/p/the-hidden-ladder-in-every-negotiation" target="_blank" rel="noopener">The Hidden Ladder in Every Negotiation</a>, and <a href="https://dispatchesinternetpioneer.substack.com/p/b60bcdbd-6a51-4f3b-8617-51c677e38198" target="_blank" rel="noopener">Negotiation Styles and the Escalation Ladder</a>.
+          The three-style framework (Analyst, Accommodator, Assertive) is drawn from Chris Voss, <a href="https://a.co/d/09xtq3Wa" target="_blank" rel="noopener" class="book-link"><em>Never Split the Difference</em></a> (2016), and Chester Karrass, <a href="https://a.co/d/04GTGKxy" target="_blank" rel="noopener" class="book-link"><em>Give and Take</em></a> (1974, rev. 1993). The application of these styles to institutional leadership, team dynamics, and negotiation escalation is developed in Timothy Chester's series <a href="https://dispatchesinternetpioneer.substack.com" target="_blank" rel="noopener" class="book-link"><em>Dispatches from an Internet Pioneer</em></a>, published on Substack. The series includes <a href="https://dispatchesinternetpioneer.substack.com/p/know-your-negotiation-style" target="_blank" rel="noopener" class="book-link">Know Your Negotiation Style</a>, <a href="https://dispatchesinternetpioneer.substack.com/p/the-hidden-ladder-in-every-negotiation" target="_blank" rel="noopener" class="book-link">The Hidden Ladder in Every Negotiation</a>, and <a href="https://dispatchesinternetpioneer.substack.com/p/b60bcdbd-6a51-4f3b-8617-51c677e38198" target="_blank" rel="noopener" class="book-link">Negotiation Styles and the Escalation Ladder</a>.
         </div>
       `;
     }
