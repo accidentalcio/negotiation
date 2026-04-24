@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Negotiation Style Assessment (v6)</title>
+  <title>Negotiation Style Assessment (v5)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -13,6 +13,7 @@
       --accent: #6ea8fe;
       --accent-2: #8bd3ff;
       --warn: #ff8a8a;
+      --ok: #7de28b;
       --card: #0f1428;
       --border: #1f2747;
       --analyst-color: #7de28b;
@@ -30,90 +31,19 @@
     }
     .wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 100px; }
 
-    /* ---- INTRO SCREEN ---- */
-    #intro {
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      padding: 0;
-    }
-    .intro-inner {
-      width: 100%;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 60px 20px 80px;
-    }
-    .intro-eyebrow {
-      font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 16px;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .intro-title {
-      font-size: 30px; font-weight: 700; margin: 0 0 6px;
-      font-family: system-ui, -apple-system, sans-serif;
-      letter-spacing: 0.2px;
-    }
-    .intro-version {
-      font-size: 18px; font-weight: 400; color: var(--muted);
-    }
-    .intro-divider {
-      border: none; border-top: 1px solid var(--border);
-      margin: 28px 0;
-    }
-    .intro-head {
-      font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase;
-      color: var(--muted); margin: 0 0 16px;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .intro-body {
-      font-size: 16px; line-height: 1.75;
-      max-width: 640px;
-    }
-    .intro-body p { margin: 0 0 18px; }
-    .intro-body p:last-child { margin-bottom: 0; }
-    .intro-pills {
-      display: flex; gap: 8px; flex-wrap: wrap;
-      margin: 32px 0;
-    }
+    /* Header */
+    header { margin-bottom: 36px; border-bottom: 1px solid var(--border); padding-bottom: 28px; }
+    h1 { margin: 0 0 8px; font-size: 26px; font-weight: 700; letter-spacing: 0.3px; font-family: system-ui, -apple-system, sans-serif; }
+    p.topline { margin: 0; color: var(--muted); font-size: 15px; font-family: system-ui, -apple-system, sans-serif; }
+    .style-pills { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
     .pill {
-      display: inline-block; padding: 4px 13px;
+      display: inline-block; padding: 3px 11px;
       border: 1px solid var(--border); border-radius: 999px;
       font-size: 12px; font-family: system-ui, -apple-system, sans-serif;
       color: var(--muted); letter-spacing: 0.3px;
     }
-    .intro-proceed {
-      margin-top: 36px;
-    }
 
-    /* ---- SHARED BUTTON ---- */
-    button {
-      appearance: none; border: none; color: white;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      padding: 14px 28px; font-weight: 700; border-radius: 12px; cursor: pointer;
-      box-shadow: 0 8px 20px rgba(110,168,254,0.25);
-      font-family: system-ui, -apple-system, sans-serif;
-      font-size: 15px; letter-spacing: 0.2px;
-      transition: opacity 0.15s, transform 0.1s;
-    }
-    button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
-    button:disabled { filter: grayscale(0.6); opacity: 0.7; cursor: not-allowed; }
-
-    /* ---- QUIZ SECTION ---- */
-    #quiz-section { display: none; }
-
-    header {
-      margin-bottom: 36px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 28px;
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 26px; font-weight: 700; letter-spacing: 0.3px;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    p.topline { margin: 0; color: var(--muted); font-size: 15px; font-family: system-ui, -apple-system, sans-serif; }
-    .style-pills { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
-
+    /* Quiz card */
     .card {
       background: linear-gradient(180deg, var(--panel), var(--card));
       border: 1px solid var(--border);
@@ -137,11 +67,23 @@
     label.opt:has(input:checked) { border-color: var(--accent); background: rgba(110,168,254,0.08); }
     input[type="radio"] { margin-top: 2px; accent-color: var(--accent); }
 
+    /* Submit area */
     .actions {
       position: sticky; bottom: 0;
       background: linear-gradient(180deg, rgba(11,16,32,0), var(--bg) 45%);
       padding-top: 20px; margin-top: 28px;
     }
+    button {
+      appearance: none; border: none; color: white;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      padding: 14px 26px; font-weight: 700; border-radius: 12px; cursor: pointer;
+      box-shadow: 0 8px 20px rgba(110,168,254,0.25);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 15px; letter-spacing: 0.2px;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    button:disabled { filter: grayscale(0.6); opacity: 0.7; cursor: not-allowed; }
     .error { color: var(--warn); margin-top: 10px; font-size: 14px; font-family: system-ui, -apple-system, sans-serif; }
 
     /* ---- RESULTS ---- */
@@ -152,19 +94,33 @@
       overflow: hidden;
       background: rgba(15,20,40,0.6);
     }
-    .result-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--border); }
+
+    /* Result header band */
+    .result-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+    }
     .result-label {
       font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--muted); font-family: system-ui, -apple-system, sans-serif; margin-bottom: 6px;
+      color: var(--muted); font-family: system-ui, -apple-system, sans-serif;
+      margin-bottom: 6px;
     }
-    .result-title { font-size: 24px; font-weight: 700; margin: 0 0 4px; font-family: system-ui, -apple-system, sans-serif; }
-    .result-title.analyst      { color: var(--analyst-color); }
+    .result-title {
+      font-size: 24px; font-weight: 700; margin: 0 0 4px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .result-title.analyst   { color: var(--analyst-color); }
     .result-title.accommodator { color: var(--accommodator-color); }
-    .result-title.assertive    { color: var(--assertive-color); }
-    .result-title.tie          { color: var(--ink); }
+    .result-title.assertive { color: var(--assertive-color); }
+    .result-title.tie       { color: var(--ink); }
 
+    /* Score bars */
     .score-bars { padding: 20px 28px; border-bottom: 1px solid var(--border); }
-    .score-bars-label { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; font-family: system-ui, -apple-system, sans-serif; }
+    .score-bars-label {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .score-row { display: grid; grid-template-columns: 110px 1fr 28px; align-items: center; gap: 12px; margin-bottom: 10px; }
     .score-row:last-child { margin-bottom: 0; }
     .score-name { font-size: 13px; font-family: system-ui, -apple-system, sans-serif; color: var(--muted); text-align: right; }
@@ -178,54 +134,104 @@
     .score-fill.tertiary       { opacity: 0.35; }
     .score-num { font-size: 12px; color: var(--muted); font-family: system-ui, -apple-system, sans-serif; text-align: right; }
 
+    /* Profile sections */
     .profile-body { padding: 28px; }
     .profile-section { margin-bottom: 26px; }
     .profile-section:last-child { margin-bottom: 0; }
-    .profile-section-head { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-family: system-ui, -apple-system, sans-serif; }
+    .profile-section-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .profile-section p { margin: 0; font-size: 15px; line-height: 1.7; }
 
+    /* Stress note callout */
     .stress-note {
-      background: rgba(110,168,254,0.07); border: 1px solid rgba(110,168,254,0.2);
-      border-radius: 10px; padding: 16px 18px; margin-bottom: 26px;
+      background: rgba(110,168,254,0.07);
+      border: 1px solid rgba(110,168,254,0.2);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 26px;
     }
-    .stress-note-head { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; font-family: system-ui, -apple-system, sans-serif; }
+    .stress-note-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .stress-note p { margin: 0; font-size: 14px; line-height: 1.65; color: #c8d8f5; }
 
+    /* Strengths block */
     .strengths-block {
-      background: rgba(125,226,139,0.05); border: 1px solid rgba(125,226,139,0.18);
-      border-radius: 10px; padding: 16px 18px; margin-bottom: 26px;
+      background: rgba(125,226,139,0.05);
+      border: 1px solid rgba(125,226,139,0.18);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 26px;
     }
     .strengths-block.accommodator { background: rgba(139,211,255,0.05); border-color: rgba(139,211,255,0.18); }
     .strengths-block.assertive    { background: rgba(244,169,106,0.05); border-color: rgba(244,169,106,0.18); }
-    .strengths-head { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-family: system-ui, -apple-system, sans-serif; }
+    .strengths-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .strengths-block p { margin: 0; font-size: 14px; line-height: 1.65; }
 
+    /* Silence block */
     .silence-block {
-      background: rgba(255,255,255,0.025); border: 1px solid var(--border);
-      border-left: 3px solid var(--muted); border-radius: 0 10px 10px 0;
-      padding: 14px 16px; margin-bottom: 26px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--muted);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 16px;
+      margin-bottom: 26px;
     }
-    .silence-head { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-family: system-ui, -apple-system, sans-serif; }
+    .silence-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .silence-block p { margin: 0; font-size: 14px; line-height: 1.65; }
 
-    .failure-block { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 26px; }
+    /* Failure block */
+    .failure-block {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 26px;
+    }
     .failure-block-head {
       font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
       color: var(--muted); padding: 12px 16px 10px;
-      border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
       font-family: system-ui, -apple-system, sans-serif;
     }
     .failure-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
     .failure-section:last-child { border-bottom: none; }
-    .failure-section-label { font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; opacity: 0.7; font-family: system-ui, -apple-system, sans-serif; }
+    .failure-section-label {
+      font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px; opacity: 0.7;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .failure-section p { margin: 0; font-size: 14px; line-height: 1.65; }
     .failure-section.prescription { background: rgba(255,255,255,0.015); }
     .failure-section.prescription .failure-section-label { color: var(--accent); opacity: 1; }
 
-    .secondary-block { border-top: 1px solid var(--border); padding-top: 22px; margin-top: 6px; }
-    .secondary-block-head { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-family: system-ui, -apple-system, sans-serif; }
+    /* Secondary style block */
+    .secondary-block {
+      border-top: 1px solid var(--border);
+      padding-top: 22px;
+      margin-top: 6px;
+    }
+    .secondary-block-head {
+      font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
     .secondary-block p { margin: 0; font-size: 14px; line-height: 1.65; color: #c8d8f5; }
 
+    /* Tie block */
     .tie-block { padding: 28px; }
     .tie-intro { font-size: 15px; margin-bottom: 22px; line-height: 1.7; }
     .tie-styles { display: grid; gap: 16px; }
@@ -233,17 +239,19 @@
     .tie-style-name { font-weight: 700; font-size: 14px; margin-bottom: 6px; font-family: system-ui, -apple-system, sans-serif; }
     .tie-style-card p { margin: 0; font-size: 14px; line-height: 1.65; }
 
+    /* Attribution */
     .attribution {
-      border-top: 1px solid var(--border); padding: 18px 28px;
-      font-size: 12px; color: var(--muted);
-      font-family: system-ui, -apple-system, sans-serif; line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding: 18px 28px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
     }
     .attribution a { color: var(--accent); text-decoration: none; }
     .attribution a:hover { text-decoration: underline; }
 
     @media (max-width: 540px) {
-      .intro-inner { padding: 40px 14px 60px; }
-      .intro-title { font-size: 24px; }
       .wrap { padding: 24px 14px 80px; }
       .result-header, .score-bars, .profile-body, .attribution { padding-left: 18px; padding-right: 18px; }
       .score-row { grid-template-columns: 90px 1fr 24px; }
@@ -251,60 +259,28 @@
   </style>
 </head>
 <body>
-
-  <!-- ==================== INTRO SCREEN ==================== -->
-  <div id="intro">
-    <div class="intro-inner">
-      <div class="intro-eyebrow">Dispatches from an Internet Pioneer</div>
-      <div class="intro-title">Negotiation Style Assessment <span class="intro-version">(v6)</span></div>
-
-      <hr class="intro-divider" />
-
-      <div class="intro-head">Before you begin</div>
-      <div class="intro-body">
-        <p>Answer from instinct, not intention. Most people know how they should behave in a negotiation. That is not what this is measuring.</p>
-        <p>As you work through each question, hold a real situation in mind: a project where the timeline was uncomfortable, a relationship that felt like it was under strain, a conversation where something was at stake and you felt it. The specific details matter less than the feeling of it.</p>
-        <p>When a question makes you think "it depends," push through it. Ask yourself: if I had to act right now, in that state, what would I actually do? That answer is the one worth recording.</p>
-      </div>
-
-      <div class="intro-pills">
+  <div class="wrap">
+    <header>
+      <h1>Negotiation Style Assessment <span style="font-weight:400; color:var(--muted); font-size:18px;">(v5)</span></h1>
+      <p class="topline">Answer all 20 questions by choosing the option closest to how you usually operate. Options are shuffled on each load.</p>
+      <div class="style-pills">
         <span class="pill">Analyst</span>
         <span class="pill">Accommodator</span>
         <span class="pill">Assertive</span>
       </div>
+    </header>
 
-      <div class="intro-proceed">
-        <button id="proceedBtn" type="button">Proceed to Assessment</button>
-      </div>
+    <form id="quiz" class="card" novalidate></form>
+
+    <div class="actions">
+      <button id="submitBtn" type="button">Submit and Score</button>
+      <div id="formError" class="error" role="alert" aria-live="polite"></div>
     </div>
-  </div>
 
-  <!-- ==================== QUIZ SECTION ==================== -->
-  <div id="quiz-section">
-    <div class="wrap">
-      <header>
-        <h1>Negotiation Style Assessment <span style="font-weight:400; color:var(--muted); font-size:18px;">(v6)</span></h1>
-        <p class="topline">Answer all 20 questions by choosing the option closest to how you usually operate. Options are shuffled on each load.</p>
-        <div class="style-pills">
-          <span class="pill">Analyst</span>
-          <span class="pill">Accommodator</span>
-          <span class="pill">Assertive</span>
-        </div>
-      </header>
-
-      <form id="quiz" class="card" novalidate></form>
-
-      <div class="actions">
-        <button id="submitBtn" type="button">Submit and Score</button>
-        <div id="formError" class="error" role="alert" aria-live="polite"></div>
-      </div>
-
-      <div id="result" class="result" hidden style="margin-top: 28px;"></div>
-    </div>
+    <div id="result" class="result" hidden style="margin-top: 28px;"></div>
   </div>
 
   <script>
-    // ==================== QUESTIONS ====================
     const QUESTIONS = [
       { q: "When preparing for a big meeting, you usually:",
         options: [
@@ -448,7 +424,8 @@
       },
     ];
 
-    // ==================== PROFILES ====================
+    // --- Style profile content ---
+
     const PROFILES = {
       Analyst: {
         colorClass: "analyst",
@@ -494,7 +471,8 @@
       },
     };
 
-    // ==================== TIE COMBOS ====================
+    // --- Tie combination descriptions ---
+
     const TIE_COMBOS = {
       "Analyst+Accommodator": {
         title: "Analyst and Accommodator",
@@ -510,7 +488,7 @@
       },
     };
 
-    // ==================== UTILITY ====================
+    // --- Utility ---
     function shuffle(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -519,14 +497,7 @@
       return arr;
     }
 
-    // ==================== INTRO -> QUIZ ====================
-    document.getElementById("proceedBtn").addEventListener("click", () => {
-      document.getElementById("intro").style.display = "none";
-      document.getElementById("quiz-section").style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    // ==================== RENDER QUIZ ====================
+    // --- Render quiz ---
     const form = document.getElementById("quiz");
     function renderQuiz() {
       form.innerHTML = "";
@@ -577,11 +548,15 @@
     }
     renderQuiz();
 
-    // ==================== SCORE BARS ====================
+    // --- Score bars HTML ---
     function renderScoreBars(counts, dominant, tiedStyles) {
       const total = QUESTIONS.length;
-      const sorted = ["Analyst", "Accommodator", "Assertive"].sort((a, b) => counts[b] - counts[a]);
-      let html = `<div class="score-bars"><div class="score-bars-label">Score breakdown</div>`;
+      const styles = ["Analyst", "Accommodator", "Assertive"];
+      const sorted = [...styles].sort((a, b) => counts[b] - counts[a]);
+
+      let html = `<div class="score-bars">
+        <div class="score-bars-label">Score breakdown</div>`;
+
       sorted.forEach((s, rank) => {
         const pct = Math.round((counts[s] / total) * 100);
         let rankClass = rank === 0 ? "dominant" : rank === 1 ? "secondary" : "tertiary";
@@ -590,24 +565,28 @@
           <div class="score-row">
             <div class="score-name">${s}</div>
             <div class="score-track">
-              <div class="score-fill ${s.toLowerCase()} ${rankClass}" style="width:${pct}%"></div>
+              <div class="score-fill ${s.toLowerCase()} ${rankClass}" style="width: ${pct}%"></div>
             </div>
             <div class="score-num">${counts[s]}</div>
           </div>`;
       });
+
       html += `</div>`;
       return html;
     }
 
-    // ==================== SINGLE RESULT ====================
+    // --- Build single-style result HTML ---
     function buildSingleResult(dominant, secondary, counts) {
       const p = PROFILES[dominant];
-      return `
+      const sP = PROFILES[secondary];
+      const tiedStyles = null;
+
+      let html = `
         <div class="result-header">
           <div class="result-label">Your dominant negotiation style</div>
           <div class="result-title ${p.colorClass}">${dominant}</div>
         </div>
-        ${renderScoreBars(counts, dominant, null)}
+        ${renderScoreBars(counts, dominant, tiedStyles)}
         <div class="profile-body">
 
           <div class="profile-section">
@@ -641,11 +620,11 @@
               <p>${p.failure.mode}</p>
             </div>
             <div class="failure-section prescription">
-              <div class="failure-section-label">Voss</div>
+              <div class="failure-section-label">What Chris Voss Would Say</div>
               <p>${p.failure.voss}</p>
             </div>
             <div class="failure-section prescription">
-              <div class="failure-section-label">Karrass</div>
+              <div class="failure-section-label">What Chester Karrass Would Say</div>
               <p>${p.failure.karrass}</p>
             </div>
           </div>
@@ -663,13 +642,16 @@
         </div>
         ${renderAttribution()}
       `;
+      return html;
     }
 
-    // ==================== TIE RESULT ====================
+    // --- Build tie result HTML ---
     function buildTieResult(tiedStyles, counts) {
-      const combo = TIE_COMBOS[getTieComboKey(tiedStyles)];
+      const comboKey = getTieComboKey(tiedStyles);
+      const combo = TIE_COMBOS[comboKey];
       const titleStr = tiedStyles.join(" / ");
-      return `
+
+      let html = `
         <div class="result-header">
           <div class="result-label">Your scores reflect a balanced split</div>
           <div class="result-title tie">${titleStr}</div>
@@ -683,14 +665,16 @@
               <div class="tie-style-name">${combo.title}</div>
               <p>${combo.desc}</p>
             </div>
-          </div>` : `
+          </div>
+          ` : `
           <div class="tie-styles">
             ${tiedStyles.map(s => `
             <div class="tie-style-card">
               <div class="tie-style-name" style="color:var(--${PROFILES[s].colorClass}-color)">${s}</div>
               <p>${PROFILES[s].orientation}</p>
             </div>`).join('')}
-          </div>`}
+          </div>
+          `}
           <div class="stress-note" style="margin-top:22px;">
             <div class="stress-note-head">Under pressure</div>
             <p>When time is short or stakes are high, one of these styles will typically surface as the default. Retake the assessment and answer as you would when the pressure is on. That version of the results is usually more diagnostic than this one.</p>
@@ -698,13 +682,14 @@
         </div>
         ${renderAttribution()}
       `;
+      return html;
     }
 
     function getTieComboKey(styles) {
-      return [...styles].sort().join("+");
+      const sorted = [...styles].sort();
+      return sorted.join("+");
     }
 
-    // ==================== SECONDARY NOTES ====================
     function getSecondaryNote(dominant, secondary) {
       const combos = {
         "Analyst+Accommodator": "Your secondary Accommodator tendency means you are attentive to how people in the room are responding, even while you are primarily focused on the facts. This is an asset when your analytical conclusions need to be communicated to people who process information relationally. The risk is that this combination can make you reluctant to deliver an uncomfortable finding when the room clearly does not want to hear it.",
@@ -712,12 +697,12 @@
         "Accommodator+Analyst": "Your secondary Analyst tendency means you are not simply managing relationships. You are also tracking whether things are actually correct, not just comfortable. This makes you more credible than a pure Accommodator because you will eventually push back when the facts do not hold up. The challenge is that you may do so slowly, after the moment of maximum leverage has passed.",
         "Accommodator+Assertive": "Your secondary Assertive tendency means you can drive hard for outcomes until the relationship cost becomes visible, at which point you tend to pull back. This combination can be read as inconsistent by counterparts who learn to apply social pressure when you have otherwise held a strong position.",
         "Assertive+Analyst": "Your secondary Analyst tendency means you are not simply pushing toward a result. You want the result to be defensible. This is a useful check on pure Assertive behavior, particularly in institutional settings where a bad decision made quickly has lasting consequences. The challenge is that this combination can stall at the point where more analysis would require more time than you are willing to spend.",
-        "Assertive+Accommodator": "Your secondary Accommodator tendency means you are aware of the relational cost of hard positions, even when you hold them. You are more likely than a pure Assertive to adjust your approach when you sense you are creating unnecessary friction. This is an asset in long-term negotiations where the relationship has to survive the outcome.",
+        "Assertive+Accommodator": "Your secondary Accommodator tendency means you are aware of the relational cost of hard positions, even when you hold them. You are more likely than a pure Assertive to adjust your approach when you sense you are creating unnecessary friction. This is an asset in long-term negotiations where the relationship has to survive the outcome."
       };
-      return combos[`${dominant}+${secondary}`] || `A secondary ${secondary} tendency means elements of that style also shape how you read situations, particularly as the dynamics shift.`;
+      const key = `${dominant}+${secondary}`;
+      return combos[key] || `A secondary ${secondary} tendency means elements of that style also shape how you read situations, particularly as the dynamics shift.`;
     }
 
-    // ==================== ATTRIBUTION ====================
     function renderAttribution() {
       return `
         <div class="attribution">
@@ -726,9 +711,9 @@
       `;
     }
 
-    // ==================== SCORING ====================
+    // --- Scoring and submission ---
     const SUBMIT = document.getElementById("submitBtn");
-    const ERROR  = document.getElementById("formError");
+    const ERROR = document.getElementById("formError");
     const RESULT = document.getElementById("result");
 
     function validateAllAnswered() {
@@ -762,12 +747,22 @@
       const topScore = entries[0][1];
       const tied = entries.filter(e => e[1] === topScore).map(e => e[0]);
 
-      RESULT.innerHTML = tied.length === 1
-        ? buildSingleResult(entries[0][0], entries[1][0], counts)
-        : buildTieResult(tied, counts);
+      let html;
+      if (tied.length === 1) {
+        const dominant = entries[0][0];
+        const secondary = entries[1][0];
+        html = buildSingleResult(dominant, secondary, counts);
+      } else {
+        html = buildTieResult(tied, counts);
+      }
 
+      RESULT.innerHTML = html;
       RESULT.hidden = false;
-      setTimeout(() => { RESULT.scrollIntoView({ behavior: "smooth", block: "start" }); }, 50);
+
+      // Scroll to results after layout is complete
+      setTimeout(() => {
+        RESULT.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
     });
 
     // Warn before leaving if partially answered
